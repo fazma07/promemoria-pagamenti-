@@ -1,0 +1,30 @@
+name: Invio Promemoria Pagamenti
+
+on:
+  schedule:
+    - cron: '0 8 * * *'    # Ogni giorno alle 9:00 (Francia/Italia)
+  workflow_dispatch:       # Puoi avviarlo anche a mano
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installa Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Installa librerie
+        run: pip install -r requirements.txt
+
+      - name: Crea il file service_account.json dal segreto
+        run: echo "$SERVICE_ACCOUNT_JSON" > service_account.json
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+
+      - name: Esegui lo script
+        run: python promemoria.py
+        env:
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
