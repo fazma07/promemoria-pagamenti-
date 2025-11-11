@@ -1,7 +1,7 @@
 name: Invio Promemoria Pagamenti
 on:
   schedule:
-    - cron: '20 9 * * *'   # Ogni giorno alle 10:30 Francia
+    - cron: '30 9 * * *'   # Ogni giorno alle 10:30 Francia
   workflow_dispatch:
 jobs:
   send-reminders:
@@ -13,12 +13,12 @@ jobs:
         with:
           python-version: '3.11'
       - name: Installa librerie
-        run: pip install -r requirements.txt
-      - name: Crea il file service_account.json dal segreto
+        run: pip install pandas gspread oauth2client google-auth
+      - name: Crea service_account.json
         run: echo "$SERVICE_ACCOUNT_JSON" > service_account.json
         env:
           SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-      - name: Esegui lo script promemoria
+      - name: Esegui promemoria.py
         run: python promemoria.py
         env:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
