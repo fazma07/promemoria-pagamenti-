@@ -2,7 +2,7 @@ name: Invio Promemoria Pagamenti
 
 on:
   schedule:
-    - cron: '0 8 * * *'    # Ogni giorno alle 9:00 (Francia/Italia)
+    - cron: '10 9 * * *'    # Ogni giorno alle 10:10 (Italia)
   workflow_dispatch:       # Puoi avviarlo anche a mano
 
 jobs:
